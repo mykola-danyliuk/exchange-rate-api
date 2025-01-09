@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  api:
+    container_name: exchange-rates-api
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - demo.env
+    depends_on:
+      - postgres-db
+
+  postgres-db:
+    container_name: exchange-rates-pg
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - exchange-rates-pg-data:/var/lib/postgresql/data
+volumes:
+  exchange-rates-pg-data:
